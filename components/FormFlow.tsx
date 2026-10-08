@@ -11,7 +11,12 @@ import { PRICING } from "@/lib/config";
 import { commercialResult, residentialResult } from "@/lib/scoring";
 import { buildCrmPayload } from "@/lib/payload";
 import { submitLead } from "@/lib/submitLead";
-import { captureUtmParams, fireMetaPixelLead, newEventId } from "@/lib/tracking";
+import {
+  captureUtmParams,
+  fireMetaPixelLead,
+  getPresetSegment,
+  newEventId,
+} from "@/lib/tracking";
 import { firstName } from "@/lib/validation";
 import type { Answers, ContactInfo, Segment, UtmParams } from "@/lib/types";
 
@@ -37,6 +42,11 @@ export function FormFlow() {
 
   useEffect(() => {
     setUtm(captureUtmParams());
+    const preset = getPresetSegment();
+    if (preset) {
+      setSegment(preset);
+      setStepIndex(1);
+    }
   }, []);
 
   const steps = getSteps(segment);
@@ -104,57 +114,71 @@ export function FormFlow() {
 
   if (result) {
     return (
-      <main className="screen">
-        <div className="screen-inner">
-          {result.kind === "residentiel" ? (
-            <ResultResidential
-              prenom={result.prenom}
-              propertyLabel={result.propertyLabel}
-              price={result.price}
-              tel={result.tel}
-            />
-          ) : (
-            <ResultCommercial prenom={result.prenom} tel={result.tel} />
-          )}
-        </div>
-      </main>
+      <>
+        <BrandHeader />
+        <main className="screen">
+          <div className="screen-inner">
+            {result.kind === "residentiel" ? (
+              <ResultResidential
+                prenom={result.prenom}
+                propertyLabel={result.propertyLabel}
+                price={result.price}
+                tel={result.tel}
+              />
+            ) : (
+              <ResultCommercial prenom={result.prenom} tel={result.tel} />
+            )}
+          </div>
+        </main>
+      </>
     );
   }
 
   return (
-    <main className="screen">
-      <div className="screen-inner">
-        <ProgressBar
-          current={stepIndex + 1}
-          total={steps.length}
-          onBack={handleBack}
-          showBack={stepIndex > 0}
-        />
+    <>
+      <BrandHeader />
+      <main className="screen">
+        <div className="screen-inner">
+          <ProgressBar
+            current={stepIndex + 1}
+            total={steps.length}
+            onBack={handleBack}
+            showBack={stepIndex > 0}
+          />
 
-        {currentStep.type === "question" ? (
-          <QuestionScreen
-            question={currentStep.question}
-            subtitle={currentStep.subtitle}
-            options={currentStep.options}
-            selectedValue={
-              currentStep.field === "segment" ? segment ?? undefined : answers[currentStep.field]
-            }
-            onSelect={(value) => handleSelect(currentStep.field, value)}
-          />
-        ) : (
-          <ContactStep
-            initialValue={contact}
-            title={segment === "commercial" ? "Qui doit-on appeler ?" : "Où envoyer votre prix ?"}
-            subtitle={
-              segment === "commercial"
-                ? "Un agent vous rappelle pour finaliser votre soumission."
-                : "On confirme votre date par texto."
-            }
-            ctaLabel={segment === "commercial" ? "Envoyer ma demande" : "Voir mon prix"}
-            onSubmit={handleContactSubmit}
-          />
-        )}
-      </div>
-    </main>
+          {currentStep.type === "question" ? (
+            <QuestionScreen
+              question={currentStep.question}
+              subtitle={currentStep.subtitle}
+              options={currentStep.options}
+              selectedValue={
+                currentStep.field === "segment" ? segment ?? undefined : answers[currentStep.field]
+              }
+              onSelect={(value) => handleSelect(currentStep.field, value)}
+            />
+          ) : (
+            <ContactStep
+              initialValue={contact}
+              title={segment === "commercial" ? "Qui doit-on appeler ?" : "Où envoyer votre prix ?"}
+              subtitle={
+                segment === "commercial"
+                  ? "Un agent vous rappelle pour finaliser votre soumission."
+                  : "On confirme votre date par texto."
+              }
+              ctaLabel={segment === "commercial" ? "Envoyer ma demande" : "Voir mon prix"}
+              onSubmit={handleContactSubmit}
+            />
+          )}
+        </div>
+      </main>
+    </>
+  );
+}
+
+function BrandHeader() {
+  return (
+    <header className="brand-header">
+      <img src="/logo-gmv.png" alt="GMV Services" width={170} height={110} />
+    </header>
   );
 }

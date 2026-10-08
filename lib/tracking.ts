@@ -36,6 +36,12 @@ export function captureUtmParams(): UtmParams {
   return fromUrl;
 }
 
+export function getPresetSegment(): "residentiel" | "commercial" | null {
+  if (typeof window === "undefined") return null;
+  const value = new URLSearchParams(window.location.search).get("segment");
+  return value === "residentiel" || value === "commercial" ? value : null;
+}
+
 export function newEventId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();

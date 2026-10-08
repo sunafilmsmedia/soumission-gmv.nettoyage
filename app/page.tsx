@@ -1,5 +1,5 @@
-import { FormFlow } from "@/components/FormFlow";
+import { Landing } from "@/components/Landing";
 
 export default function Home() {
-  return <FormFlow />;
+  return <Landing />;
 }
