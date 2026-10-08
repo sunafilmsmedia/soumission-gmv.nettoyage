@@ -14,7 +14,7 @@ npm run dev
 
 - `CRM_WEBHOOK_URL` — URL du webhook GHL (ou autre CRM) qui reçoit le JSON du lead.
 - `RESEND_API_KEY`, `ALERT_EMAIL_FROM`, `ALERT_EMAIL_TO` — alerte courriel si le webhook échoue après 3 tentatives (via [Resend](https://resend.com)). Sans ces 3 variables, l'échec est seulement loggé côté serveur.
-- `NEXT_PUBLIC_META_PIXEL_ID`, `META_CAPI_ACCESS_TOKEN` — suivi publicitaire Meta (Pixel côté client + Conversions API côté serveur, même `event_id` pour dédoublonner).
+- `META_CAPI_ACCESS_TOKEN` — active la Conversions API côté serveur (en plus du Pixel côté client, déjà actif), même `event_id` pour dédoublonner. L'ID du Pixel Meta est versionné dans [`lib/brand.ts`](lib/brand.ts) (c'est un identifiant public, visible dans le code source de toute façon) ; surchargeable par `NEXT_PUBLIC_META_PIXEL_ID` au besoin.
 
 ## Déploiement sur Vercel
 

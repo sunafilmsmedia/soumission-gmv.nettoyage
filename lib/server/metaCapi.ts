@@ -1,4 +1,5 @@
 import { createHash } from "crypto";
+import { GMV_META_PIXEL_ID } from "../brand";
 
 function sha256(value: string): string {
   return createHash("sha256").update(value.trim().toLowerCase()).digest("hex");
@@ -13,9 +14,8 @@ export async function sendMetaConversionEvent(params: {
   clientIp?: string;
   clientUserAgent?: string;
 }): Promise<void> {
-  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
   const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
-  if (!pixelId || !accessToken) return;
+  if (!accessToken) return;
 
   const { eventId, email, phoneE164, value, eventSourceUrl, clientIp, clientUserAgent } = params;
 
@@ -40,7 +40,7 @@ export async function sendMetaConversionEvent(params: {
 
   try {
     const res = await fetch(
-      `https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`,
+      `https://graph.facebook.com/v19.0/${GMV_META_PIXEL_ID}/events?access_token=${accessToken}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
