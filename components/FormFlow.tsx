@@ -57,6 +57,14 @@ export function FormFlow() {
     setStepIndex((i) => Math.max(0, i - 1));
   }
 
+  function handleRestart() {
+    setSegment(null);
+    setStepIndex(0);
+    setAnswers({});
+    setContact(EMPTY_CONTACT);
+    setResult(null);
+  }
+
   function handleSelect(field: string, value: string) {
     if (field === "segment") {
       if (segment && segment !== value) {
@@ -125,9 +133,14 @@ export function FormFlow() {
                 propertyLabel={result.propertyLabel}
                 price={result.price}
                 tel={result.tel}
+                onRestart={handleRestart}
               />
             ) : (
-              <ResultCommercial prenom={result.prenom} tel={result.tel} />
+              <ResultCommercial
+                prenom={result.prenom}
+                tel={result.tel}
+                onRestart={handleRestart}
+              />
             )}
           </div>
         </main>
