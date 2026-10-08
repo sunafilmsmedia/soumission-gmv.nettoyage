@@ -28,21 +28,9 @@ const R0_SERVICE: QuestionStepDef = {
   question: "Quel type de nettoyage vous intéresse ?",
   icon: "droplet",
   options: [
-    {
-      value: "menager",
-      label: "Entretien ménager",
-      subtext: "Un agent vous propose un prix sur mesure",
-    },
-    {
-      value: "construction",
-      label: "Après-construction",
-      subtext: "Un agent vous propose un prix sur mesure",
-    },
-    {
-      value: "pression",
-      label: "Lavage à pression",
-      subtext: "Prix fixe affiché instantanément",
-    },
+    { value: "menager", label: "Entretien ménager" },
+    { value: "construction", label: "Après-construction" },
+    { value: "pression", label: "Lavage à pression" },
   ],
 };
 
