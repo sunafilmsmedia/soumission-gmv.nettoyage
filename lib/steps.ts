@@ -10,11 +10,13 @@ export const DIVISION_STEP: QuestionStepDef = {
       value: "residentiel",
       label: "Résidentiel",
       subtext: "Lavage à pression de votre maison",
+      icon: "house",
     },
     {
       value: "commercial",
       label: "Commercial",
       subtext: "Entretien ménager, après-construction, immeubles",
+      icon: "building",
     },
   ],
 };
@@ -25,6 +27,7 @@ const R1: QuestionStepDef = {
   field: "maison",
   question: "Quel type de propriété ?",
   subtitle: "Votre prix exact s'affiche à la fin.",
+  icon: "house",
   options: [
     { value: "semi", label: "Semi-détaché" },
     { value: "bungalow", label: "Bungalow" },
@@ -42,6 +45,7 @@ const R2: QuestionStepDef = {
   id: "R2",
   field: "etat",
   question: "Depuis quand les surfaces n'ont-elles pas été lavées ?",
+  icon: "droplet",
   options: [
     { value: "1an", label: "Moins d'un an" },
     { value: "3ans", label: "1 à 3 ans" },
@@ -54,6 +58,7 @@ const R3: QuestionStepDef = {
   id: "R3",
   field: "quand",
   question: "Quand voulez-vous le service ?",
+  icon: "calendar",
   options: [
     { value: "2sem", label: "Dans les 2 prochaines semaines" },
     { value: "mois", label: "Dans le mois" },
@@ -66,6 +71,7 @@ const C1: QuestionStepDef = {
   id: "C1",
   field: "type",
   question: "Quel type d'espace ?",
+  icon: "building",
   options: [
     { value: "bureaux", label: "Bureaux" },
     { value: "sante", label: "Clinique ou santé" },
@@ -82,6 +88,7 @@ const C2: QuestionStepDef = {
   field: "taille",
   question: "Superficie approximative ?",
   subtitle: "Un estimé suffit, on la mesure avec vous.",
+  icon: "ruler",
   options: [
     { value: "s", label: "Moins de 2 000 pi²" },
     { value: "m", label: "2 000 à 5 000 pi²" },
@@ -96,6 +103,7 @@ const C3: QuestionStepDef = {
   id: "C3",
   field: "freq",
   question: "À quelle fréquence ?",
+  icon: "repeat",
   options: [
     { value: "soir", label: "Chaque soir" },
     { value: "2-3", label: "2 à 3 fois par semaine" },
@@ -110,6 +118,7 @@ const C4: QuestionStepDef = {
   id: "C4",
   field: "fournisseur",
   question: "Avez-vous un fournisseur en ce moment ?",
+  icon: "handshake",
   options: [
     { value: "insat", label: "Oui, et ça ne marche pas" },
     { value: "sat", label: "Oui, et je suis satisfait" },
@@ -122,6 +131,7 @@ const C5: QuestionStepDef = {
   id: "C5",
   field: "quand",
   question: "Quand voulez-vous commencer ?",
+  icon: "calendar",
   options: [
     { value: "urgent", label: "Le plus vite possible" },
     { value: "mois", label: "Dans le mois" },
@@ -135,6 +145,7 @@ const C6: QuestionStepDef = {
   id: "C6",
   field: "decideur",
   question: "Êtes-vous la personne qui prend la décision ?",
+  icon: "user",
   options: [
     { value: "oui", label: "Oui" },
     { value: "partage", label: "Je décide avec quelqu'un" },

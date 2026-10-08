@@ -1,8 +1,5 @@
 import { RESIDENTIAL_INCLUS } from "@/lib/config";
-
-function formatPrice(price: number): string {
-  return `${price.toFixed(2).replace(".", ",")} $`;
-}
+import { formatPrice } from "@/lib/format";
 
 export function ResultResidential({
   prenom,

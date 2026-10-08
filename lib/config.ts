@@ -43,3 +43,29 @@ export const COMMERCIAL_THRESHOLDS = {
   tiede: 5, // 5 <= score < 8
   // < 5 => froid
 };
+
+// Villes desservies (Outaouais + région d'Ottawa). À confirmer avec Véronique.
+export const NEARBY_CITIES = [
+  "Gatineau",
+  "Hull",
+  "Aylmer",
+  "Buckingham",
+  "Masson-Angers",
+  "Chelsea",
+  "Cantley",
+  "Val-des-Monts",
+  "La Pêche",
+  "Pontiac",
+  "Thurso",
+  "Papineauville",
+  "Montebello",
+  "Ottawa",
+  "Orléans",
+  "Kanata",
+  "Nepean",
+  "Barrhaven",
+  "Gloucester",
+  "Rockland",
+  "Embrun",
+  "Casselman",
+];

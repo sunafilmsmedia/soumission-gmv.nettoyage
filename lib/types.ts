@@ -11,10 +11,22 @@ export interface ContactInfo {
   consentementSms: boolean;
 }
 
+export type StepIconKey =
+  | "house"
+  | "building"
+  | "droplet"
+  | "calendar"
+  | "ruler"
+  | "repeat"
+  | "handshake"
+  | "user"
+  | "phone";
+
 export interface OptionDef {
   value: string;
   label: string;
   subtext?: string;
+  icon?: StepIconKey;
 }
 
 export interface QuestionStepDef {
@@ -23,6 +35,7 @@ export interface QuestionStepDef {
   field: string;
   question: string;
   subtitle?: string;
+  icon?: StepIconKey;
   options: OptionDef[];
 }
 

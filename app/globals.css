@@ -1,16 +1,16 @@
 :root {
-  --color-bg: #ffffff;
-  --color-surface: #f6f7f6;
-  --color-border: #e3e5e3;
-  --color-text: #0e0f0e;
-  --color-text-muted: #5c615d;
+  --color-bg: #0a0b0a;
+  --color-surface: #191b19;
+  --color-border: rgba(255, 255, 255, 0.14);
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.64);
   --color-black: #0a0b0a;
   --color-primary: #16a34a;
   --color-primary-bright: #22c55e;
   --color-primary-contrast: #ffffff;
-  --color-danger: #d1293d;
-  --color-chip-selected-bg: #ecfdf3;
-  --color-chip-selected-border: #16a34a;
+  --color-danger: #f87171;
+  --color-chip-selected-bg: rgba(34, 197, 94, 0.14);
+  --color-chip-selected-border: #22c55e;
   --radius: 14px;
   --max-width: 480px;
   --max-width-wide: 1080px;
@@ -29,6 +29,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
+  accent-color: var(--color-primary-bright);
 }
 
 button {
@@ -67,7 +68,7 @@ button {
   height: 40px;
   border-radius: 50%;
   border: 1px solid var(--color-border);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
   flex-shrink: 0;
   cursor: pointer;
@@ -131,6 +132,13 @@ p.question-subtitle {
   color: var(--color-text);
 }
 
+.option-button.has-icon {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+}
+
 .option-button:active {
   transform: scale(0.99);
 }
@@ -140,6 +148,12 @@ p.question-subtitle {
   background: var(--color-chip-selected-bg);
 }
 
+.option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .option-label {
   font-weight: 600;
 }
@@ -147,6 +161,38 @@ p.question-subtitle {
 .option-subtext {
   font-size: 13px;
   color: var(--color-text-muted);
+}
+
+.option-icon-badge,
+.step-icon-badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-chip-selected-bg);
+  color: var(--color-primary-bright);
+}
+
+.option-icon-badge {
+  width: 44px;
+  height: 44px;
+}
+
+.option-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.step-icon-badge {
+  width: 56px;
+  height: 56px;
+  margin: 0 0 16px;
+}
+
+.step-icon {
+  width: 30px;
+  height: 30px;
 }
 
 .form-field {
@@ -161,20 +207,68 @@ p.question-subtitle {
   color: var(--color-text-muted);
 }
 
-.form-field input {
+.form-field input,
+.form-field select {
   width: 100%;
   min-height: 52px;
   padding: 0 14px;
   font-size: 16px;
   border-radius: 10px;
   border: 1.5px solid var(--color-border);
-  background: var(--color-bg);
+  background: var(--color-surface);
   color: var(--color-text);
 }
 
-.form-field input:focus {
+.form-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px;
+  padding-right: 40px;
+}
+
+.form-field select option {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.form-field input:focus,
+.form-field select:focus {
   outline: none;
   border-color: var(--color-primary);
+}
+
+.price-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-chip-selected-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.price-preview-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-bright);
+}
+
+.price-preview-value {
+  font-size: 32px;
+  font-weight: 800;
+  filter: blur(7px);
+  user-select: none;
+}
+
+.price-preview-hint {
+  font-size: 13px;
+  color: var(--color-text-muted);
 }
 
 .field-error {
@@ -289,6 +383,7 @@ ol.steps-list {
 
 .brand-header {
   background: var(--color-black);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;

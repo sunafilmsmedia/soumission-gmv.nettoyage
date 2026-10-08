@@ -1,5 +1,6 @@
 "use client";
 
+import { StepIcon } from "./icons";
 import type { OptionDef } from "@/lib/types";
 
 export function QuestionScreen({
@@ -24,11 +25,20 @@ export function QuestionScreen({
           <button
             key={opt.value}
             type="button"
-            className={`option-button${selectedValue === opt.value ? " selected" : ""}`}
+            className={`option-button${opt.icon ? " has-icon" : ""}${
+              selectedValue === opt.value ? " selected" : ""
+            }`}
             onClick={() => onSelect(opt.value)}
           >
-            <span className="option-label">{opt.label}</span>
-            {opt.subtext ? <span className="option-subtext">{opt.subtext}</span> : null}
+            {opt.icon ? (
+              <span className="option-icon-badge">
+                <StepIcon icon={opt.icon} className="option-icon" />
+              </span>
+            ) : null}
+            <span className="option-text">
+              <span className="option-label">{opt.label}</span>
+              {opt.subtext ? <span className="option-subtext">{opt.subtext}</span> : null}
+            </span>
           </button>
         ))}
       </div>

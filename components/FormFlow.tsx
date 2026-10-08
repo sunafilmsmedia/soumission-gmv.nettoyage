@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { QuestionScreen } from "./QuestionScreen";
 import { ContactStep } from "./ContactStep";
+import { StepIcon } from "./icons";
 import { ResultResidential } from "./ResultResidential";
 import { ResultCommercial } from "./ResultCommercial";
 import { getSteps } from "@/lib/steps";
@@ -146,6 +147,12 @@ export function FormFlow() {
             showBack={stepIndex > 0}
           />
 
+          {currentStep.type === "question" && currentStep.icon ? (
+            <span className="step-icon-badge">
+              <StepIcon icon={currentStep.icon} className="step-icon" />
+            </span>
+          ) : null}
+
           {currentStep.type === "question" ? (
             <QuestionScreen
               question={currentStep.question}
@@ -157,17 +164,27 @@ export function FormFlow() {
               onSelect={(value) => handleSelect(currentStep.field, value)}
             />
           ) : (
-            <ContactStep
-              initialValue={contact}
-              title={segment === "commercial" ? "Qui doit-on appeler ?" : "Où envoyer votre prix ?"}
-              subtitle={
-                segment === "commercial"
-                  ? "Un agent vous rappelle pour finaliser votre soumission."
-                  : "On confirme votre date par texto."
-              }
-              ctaLabel={segment === "commercial" ? "Envoyer ma demande" : "Voir mon prix"}
-              onSubmit={handleContactSubmit}
-            />
+            <>
+              <span className="step-icon-badge">
+                <StepIcon icon="phone" className="step-icon" />
+              </span>
+              <ContactStep
+                initialValue={contact}
+                title={
+                  segment === "commercial" ? "Qui doit-on appeler ?" : "Où envoyer votre prix ?"
+                }
+                subtitle={
+                  segment === "commercial"
+                    ? "Un agent vous rappelle pour finaliser votre soumission."
+                    : "On confirme votre date par texto."
+                }
+                ctaLabel={segment === "commercial" ? "Envoyer ma demande" : "Voir mon prix"}
+                previewPrice={
+                  segment === "residentiel" ? residentialResult(answers).price : undefined
+                }
+                onSubmit={handleContactSubmit}
+              />
+            </>
           )}
         </div>
       </main>
