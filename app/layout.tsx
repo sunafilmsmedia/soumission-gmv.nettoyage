@@ -1,6 +1,15 @@
 import type { Metadata, Viewport } from "next";
+import { Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+
+const accentFont = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-accent",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Soumission GMV Services",
@@ -17,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
   return (
-    <html lang="fr">
+    <html lang="fr" className={accentFont.variable}>
       <body>
         {children}
         {pixelId ? (
