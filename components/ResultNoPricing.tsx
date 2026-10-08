@@ -1,18 +1,28 @@
-const STEPS = [
-  "L'urgence de votre projet et la date de début souhaitée",
-  "La superficie exacte de votre espace",
-  "La localisation exacte de votre espace",
-];
+import type { Segment } from "@/lib/types";
 
-export function ResultCommercial({
+export function ResultNoPricing({
   prenom,
   tel,
+  segment,
   onRestart,
 }: {
   prenom: string;
   tel: string;
+  segment: Segment;
   onRestart: () => void;
 }) {
+  const place = segment === "residentiel" ? "propriété" : "espace";
+  const intro =
+    segment === "residentiel"
+      ? "Chaque projet est différent."
+      : "Chaque espace commercial est différent.";
+
+  const steps = [
+    "L'urgence de votre projet et la date de début souhaitée",
+    `La superficie exacte de votre ${place}`,
+    `La localisation exacte de votre ${place}`,
+  ];
+
   return (
     <>
       <span className="result-badge fade-in-up" style={{ animationDelay: "0ms" }}>
@@ -28,12 +38,11 @@ export function ResultCommercial({
         className="question-subtitle fade-in-up"
         style={{ animationDelay: "140ms", marginBottom: 20 }}
       >
-        Chaque espace commercial est différent. Pour vous donner un prix juste, notre agent va
-        valider avec vous :
+        {intro} Pour vous donner un prix juste, notre agent va valider avec vous :
       </p>
 
       <ol className="steps-numbered fade-in-up" style={{ animationDelay: "210ms" }}>
-        {STEPS.map((step, i) => (
+        {steps.map((step, i) => (
           <li key={step}>
             <span className="step-number-badge">{i + 1}</span>
             <span>{step}</span>

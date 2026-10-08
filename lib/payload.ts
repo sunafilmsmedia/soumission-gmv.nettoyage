@@ -2,7 +2,7 @@ import { toE164 } from "./validation";
 import { nowIsoWithOffset } from "./tracking";
 import type { Answers, ContactInfo, CrmPayload, Priorite, Segment, UtmParams } from "./types";
 
-const RESIDENTIAL_FIELDS = ["maison", "etat", "quand"];
+const RESIDENTIAL_FIELDS = ["service", "maison", "quand"];
 const COMMERCIAL_FIELDS = ["type", "taille", "freq", "fournisseur", "quand", "decideur"];
 
 export function buildCrmPayload(params: {

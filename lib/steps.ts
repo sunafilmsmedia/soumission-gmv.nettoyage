@@ -1,4 +1,4 @@
-import type { QuestionStepDef, StepDef } from "./types";
+import type { Answers, QuestionStepDef, StepDef } from "./types";
 
 export const DIVISION_STEP: QuestionStepDef = {
   type: "question",
@@ -9,7 +9,7 @@ export const DIVISION_STEP: QuestionStepDef = {
     {
       value: "residentiel",
       label: "Résidentiel",
-      subtext: "Lavage à pression de votre maison",
+      subtext: "Lavage à pression, entretien ménager et plus",
       icon: "house",
     },
     {
@@ -17,6 +17,31 @@ export const DIVISION_STEP: QuestionStepDef = {
       label: "Commercial",
       subtext: "Entretien ménager, après-construction, immeubles",
       icon: "building",
+    },
+  ],
+};
+
+const R0_SERVICE: QuestionStepDef = {
+  type: "question",
+  id: "R0",
+  field: "service",
+  question: "Quel type de nettoyage vous intéresse ?",
+  icon: "droplet",
+  options: [
+    {
+      value: "menager",
+      label: "Entretien ménager",
+      subtext: "Un agent vous propose un prix sur mesure",
+    },
+    {
+      value: "construction",
+      label: "Après-construction",
+      subtext: "Un agent vous propose un prix sur mesure",
+    },
+    {
+      value: "pression",
+      label: "Lavage à pression",
+      subtext: "Prix fixe affiché instantanément",
     },
   ],
 };
@@ -37,19 +62,6 @@ const R1: QuestionStepDef = {
       label: "Hors standard",
       subtext: "Plus de 2 étages, très grand terrain, accès difficile",
     },
-  ],
-};
-
-const R2: QuestionStepDef = {
-  type: "question",
-  id: "R2",
-  field: "etat",
-  question: "Depuis quand les surfaces n'ont-elles pas été lavées ?",
-  icon: "droplet",
-  options: [
-    { value: "1an", label: "Moins d'un an" },
-    { value: "3ans", label: "1 à 3 ans" },
-    { value: "jamais", label: "Plus de 3 ans ou jamais" },
   ],
 };
 
@@ -155,14 +167,6 @@ const C6: QuestionStepDef = {
 
 const CONTACT_STEP: StepDef = { type: "contact", id: "contact" };
 
-export const RESIDENTIAL_STEPS: StepDef[] = [
-  DIVISION_STEP,
-  R1,
-  R2,
-  R3,
-  CONTACT_STEP,
-];
-
 export const COMMERCIAL_STEPS: StepDef[] = [
   DIVISION_STEP,
   C1,
@@ -174,9 +178,20 @@ export const COMMERCIAL_STEPS: StepDef[] = [
   CONTACT_STEP,
 ];
 
-export function getSteps(segment: "residentiel" | "commercial" | null): StepDef[] {
+export function getResidentialSteps(answers: Answers): StepDef[] {
+  // Le prix fixe ne s'applique qu'au lavage à pression (R1 sert à choisir
+  // le prix). Pour entretien ménager / après-construction, pas de prix :
+  // on saute directement à "quand" puis aux coordonnées.
+  if (answers.service === "menager" || answers.service === "construction") {
+    return [DIVISION_STEP, R0_SERVICE, R3, CONTACT_STEP];
+  }
+  return [DIVISION_STEP, R0_SERVICE, R1, R3, CONTACT_STEP];
+}
+
+export function getSteps(
+  segment: "residentiel" | "commercial" | null,
+  answers: Answers
+): StepDef[] {
   if (segment === "commercial") return COMMERCIAL_STEPS;
-  // Avant la sélection du segment, on utilise la longueur résidentielle
-  // (5 écrans) comme valeur par défaut pour l'écran de division.
-  return RESIDENTIAL_STEPS;
+  return getResidentialSteps(answers);
 }

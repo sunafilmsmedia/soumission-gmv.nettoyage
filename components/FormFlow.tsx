@@ -6,7 +6,7 @@ import { QuestionScreen } from "./QuestionScreen";
 import { ContactStep } from "./ContactStep";
 import { StepIcon } from "./icons";
 import { ResultResidential } from "./ResultResidential";
-import { ResultCommercial } from "./ResultCommercial";
+import { ResultNoPricing } from "./ResultNoPricing";
 import { getSteps } from "@/lib/steps";
 import { PRICING } from "@/lib/config";
 import { commercialResult, residentialResult } from "@/lib/scoring";
@@ -23,7 +23,7 @@ import type { Answers, ContactInfo, Segment, UtmParams } from "@/lib/types";
 
 type ResultState =
   | { kind: "residentiel"; prenom: string; propertyLabel: string; price: number; tel: string }
-  | { kind: "commercial"; prenom: string; tel: string };
+  | { kind: "nopricing"; prenom: string; tel: string; segment: Segment };
 
 const EMPTY_CONTACT: ContactInfo = {
   nom: "",
@@ -50,8 +50,9 @@ export function FormFlow() {
     }
   }, []);
 
-  const steps = getSteps(segment);
+  const steps = getSteps(segment, answers);
   const currentStep = steps[stepIndex];
+  const isPricedResidential = segment === "residentiel" && answers.service === "pression";
 
   function handleBack() {
     setStepIndex((i) => Math.max(0, i - 1));
@@ -72,6 +73,18 @@ export function FormFlow() {
       }
       setSegment(value as Segment);
       setStepIndex(1);
+      return;
+    }
+    if (field === "service") {
+      // "maison" (type de propriété) ne s'applique qu'au lavage à pression :
+      // on l'efface si on change de type de nettoyage, pour ne pas laisser
+      // traîner une réponse périmée dans les données envoyées au CRM.
+      setAnswers((prev) => {
+        const next: Answers = { ...prev, service: value };
+        delete next.maison;
+        return next;
+      });
+      setStepIndex((i) => i + 1);
       return;
     }
     setAnswers((prev) => ({ ...prev, [field]: value }));
@@ -96,29 +109,45 @@ export function FormFlow() {
       });
       submitLead(crm, eventId);
       fireMetaPixelLead(eventId);
-      setResult({ kind: "commercial", prenom, tel: submittedContact.telephone });
+      setResult({
+        kind: "nopricing",
+        prenom,
+        tel: submittedContact.telephone,
+        segment: "commercial",
+      });
       return;
     }
 
     const { priorite, price } = residentialResult(answers);
+    const isPricing = answers.service === "pression";
     const crm = buildCrmPayload({
       segment: "residentiel",
       priorite,
       score: null,
       answers,
       contact: submittedContact,
-      prixAffiche: price,
+      prixAffiche: isPricing ? price : null,
       utm,
     });
-    submitLead(crm, eventId, price);
-    fireMetaPixelLead(eventId, price);
-    setResult({
-      kind: "residentiel",
-      prenom,
-      propertyLabel: PRICING[answers.maison]?.label ?? "",
-      price,
-      tel: submittedContact.telephone,
-    });
+    submitLead(crm, eventId, isPricing ? price : undefined);
+    fireMetaPixelLead(eventId, isPricing ? price : undefined);
+
+    if (isPricing) {
+      setResult({
+        kind: "residentiel",
+        prenom,
+        propertyLabel: PRICING[answers.maison]?.label ?? "",
+        price,
+        tel: submittedContact.telephone,
+      });
+    } else {
+      setResult({
+        kind: "nopricing",
+        prenom,
+        tel: submittedContact.telephone,
+        segment: "residentiel",
+      });
+    }
   }
 
   if (result) {
@@ -136,9 +165,10 @@ export function FormFlow() {
                 onRestart={handleRestart}
               />
             ) : (
-              <ResultCommercial
+              <ResultNoPricing
                 prenom={result.prenom}
                 tel={result.tel}
+                segment={result.segment}
                 onRestart={handleRestart}
               />
             )}
@@ -183,18 +213,14 @@ export function FormFlow() {
               </span>
               <ContactStep
                 initialValue={contact}
-                title={
-                  segment === "commercial" ? "Qui doit-on appeler ?" : "Où envoyer votre prix ?"
-                }
+                title={isPricedResidential ? "Où envoyer votre prix ?" : "Qui doit-on appeler ?"}
                 subtitle={
-                  segment === "commercial"
-                    ? "Un agent vous rappelle pour finaliser votre soumission."
-                    : "On confirme votre date par texto."
+                  isPricedResidential
+                    ? "On confirme votre date par texto."
+                    : "Un agent vous rappelle pour finaliser votre soumission."
                 }
-                ctaLabel={segment === "commercial" ? "Envoyer ma demande" : "Voir mon prix"}
-                previewPrice={
-                  segment === "residentiel" ? residentialResult(answers).price : undefined
-                }
+                ctaLabel={isPricedResidential ? "Voir mon prix" : "Envoyer ma demande"}
+                previewPrice={isPricedResidential ? residentialResult(answers).price : undefined}
                 onSubmit={handleContactSubmit}
               />
             </>
