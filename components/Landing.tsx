@@ -11,7 +11,18 @@ export function Landing() {
         <div className="hero-inner">
           <span className="hero-badge">Propulsé par l&apos;IA</span>
           <h1>
-            Votre soumission de nettoyage en <span className="accent">60 secondes</span>
+            Votre soumission de nettoyage en{" "}
+            <span className="accent-wrap">
+              <img
+                className="broom-sweep"
+                src="/broom.png"
+                alt=""
+                aria-hidden="true"
+                width={243}
+                height={500}
+              />
+              <span className="accent">60 secondes</span>
+            </span>
           </h1>
           <p className="hero-subtitle">
             Prix fixe instantané pour le résidentiel. Soumission sur mesure pour le commercial.
