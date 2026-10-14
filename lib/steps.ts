@@ -129,14 +129,9 @@ const C5: QuestionStepDef = {
 
 const CONTACT_STEP: StepDef = { type: "contact", id: "contact" };
 
-export const COMMERCIAL_STEPS: StepDef[] = [
-  DIVISION_STEP,
-  C1,
-  C2,
-  C3,
-  C5,
-  CONTACT_STEP,
-];
+// Pour l'instant, l'offre résidentielle est mise de côté : le parcours
+// commercial démarre directement sur C1, sans écran de division.
+export const COMMERCIAL_STEPS: StepDef[] = [C1, C2, C3, C5, CONTACT_STEP];
 
 export function getResidentialSteps(answers: Answers): StepDef[] {
   // Le prix fixe ne s'applique qu'au lavage à pression (R1 sert à choisir

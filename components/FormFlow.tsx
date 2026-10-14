@@ -12,12 +12,7 @@ import { PRICING } from "@/lib/config";
 import { commercialResult, residentialResult } from "@/lib/scoring";
 import { buildCrmPayload } from "@/lib/payload";
 import { submitLead } from "@/lib/submitLead";
-import {
-  captureUtmParams,
-  fireMetaPixelLead,
-  getPresetSegment,
-  newEventId,
-} from "@/lib/tracking";
+import { captureUtmParams, fireMetaPixelLead, newEventId } from "@/lib/tracking";
 import { firstName } from "@/lib/validation";
 import type { Answers, ContactInfo, Segment, UtmParams } from "@/lib/types";
 
@@ -34,7 +29,9 @@ const EMPTY_CONTACT: ContactInfo = {
 };
 
 export function FormFlow() {
-  const [segment, setSegment] = useState<Segment | null>(null);
+  // L'offre résidentielle est mise de côté pour l'instant : on démarre
+  // directement sur le parcours commercial, sans écran de division.
+  const [segment, setSegment] = useState<Segment>("commercial");
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [contact, setContact] = useState<ContactInfo>(EMPTY_CONTACT);
@@ -43,11 +40,6 @@ export function FormFlow() {
 
   useEffect(() => {
     setUtm(captureUtmParams());
-    const preset = getPresetSegment();
-    if (preset) {
-      setSegment(preset);
-      setStepIndex(1);
-    }
   }, []);
 
   const steps = getSteps(segment, answers);
@@ -59,7 +51,6 @@ export function FormFlow() {
   }
 
   function handleRestart() {
-    setSegment(null);
     setStepIndex(0);
     setAnswers({});
     setContact(EMPTY_CONTACT);
@@ -67,14 +58,6 @@ export function FormFlow() {
   }
 
   function handleSelect(field: string, value: string) {
-    if (field === "segment") {
-      if (segment && segment !== value) {
-        setAnswers({});
-      }
-      setSegment(value as Segment);
-      setStepIndex(1);
-      return;
-    }
     if (field === "service") {
       // "maison" (type de propriété) ne s'applique qu'au lavage à pression :
       // on l'efface si on change de type de nettoyage, pour ne pas laisser
@@ -201,9 +184,7 @@ export function FormFlow() {
               question={currentStep.question}
               subtitle={currentStep.subtitle}
               options={currentStep.options}
-              selectedValue={
-                currentStep.field === "segment" ? segment ?? undefined : answers[currentStep.field]
-              }
+              selectedValue={answers[currentStep.field]}
               onSelect={(value) => handleSelect(currentStep.field, value)}
             />
           ) : (

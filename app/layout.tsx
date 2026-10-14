@@ -14,7 +14,7 @@ const accentFont = Instrument_Serif({
 
 export const metadata: Metadata = {
   title: "Soumission GMV Services",
-  description: "Obtenez votre prix de lavage à pression ou votre soumission commerciale.",
+  description: "Obtenez votre soumission de nettoyage commercial en 60 secondes.",
 };
 
 export const viewport: Viewport = {

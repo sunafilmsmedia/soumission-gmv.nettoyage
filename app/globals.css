@@ -663,6 +663,10 @@ p.question-subtitle {
   margin: 0 0 16px;
 }
 
+.nowrap-group {
+  white-space: nowrap;
+}
+
 .accent-wrap {
   position: relative;
   display: inline-block;
