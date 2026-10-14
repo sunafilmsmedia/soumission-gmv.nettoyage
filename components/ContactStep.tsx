@@ -56,7 +56,19 @@ export function ContactStep({
     setError(err);
     if (err) return;
     setSubmitting(true);
-    onSubmit(contact);
+    // Petite pause mise en scène (le balai "calcule" la soumission) avant
+    // d'afficher le résultat — l'envoi réel au CRM se fait en arrière-plan
+    // sans attendre, via onSubmit.
+    window.setTimeout(() => onSubmit(contact), 1400);
+  }
+
+  if (submitting) {
+    return (
+      <div className="calculating">
+        <img src="/broom.png" alt="" aria-hidden="true" className="calculating-broom" />
+        <p className="calculating-text">On calcule votre soumission&hellip;</p>
+      </div>
+    );
   }
 
   return (

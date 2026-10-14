@@ -113,19 +113,6 @@ const C3: QuestionStepDef = {
   ],
 };
 
-const C4: QuestionStepDef = {
-  type: "question",
-  id: "C4",
-  field: "fournisseur",
-  question: "Avez-vous un fournisseur en ce moment ?",
-  icon: "handshake",
-  options: [
-    { value: "insat", label: "Oui, et ça ne marche pas" },
-    { value: "sat", label: "Oui, et je suis satisfait" },
-    { value: "aucun", label: "Non" },
-  ],
-};
-
 const C5: QuestionStepDef = {
   type: "question",
   id: "C5",
@@ -140,19 +127,6 @@ const C5: QuestionStepDef = {
   ],
 };
 
-const C6: QuestionStepDef = {
-  type: "question",
-  id: "C6",
-  field: "decideur",
-  question: "Êtes-vous la personne qui prend la décision ?",
-  icon: "user",
-  options: [
-    { value: "oui", label: "Oui" },
-    { value: "partage", label: "Je décide avec quelqu'un" },
-    { value: "non", label: "Non, je fais la recherche" },
-  ],
-};
-
 const CONTACT_STEP: StepDef = { type: "contact", id: "contact" };
 
 export const COMMERCIAL_STEPS: StepDef[] = [
@@ -160,9 +134,7 @@ export const COMMERCIAL_STEPS: StepDef[] = [
   C1,
   C2,
   C3,
-  C4,
   C5,
-  C6,
   CONTACT_STEP,
 ];
 

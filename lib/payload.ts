@@ -3,7 +3,7 @@ import { nowIsoWithOffset } from "./tracking";
 import type { Answers, ContactInfo, CrmPayload, Priorite, Segment, UtmParams } from "./types";
 
 const RESIDENTIAL_FIELDS = ["service", "maison", "quand"];
-const COMMERCIAL_FIELDS = ["type", "taille", "freq", "fournisseur", "quand", "decideur"];
+const COMMERCIAL_FIELDS = ["type", "taille", "freq", "quand"];
 
 export function buildCrmPayload(params: {
   segment: Segment;

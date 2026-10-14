@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Skyline } from "./Skyline";
 
 export function Landing() {
   return (
@@ -33,6 +34,8 @@ export function Landing() {
           <p className="hero-fineprint">Aucune carte de crédit · Réponse immédiate</p>
         </div>
       </section>
+
+      <Skyline />
 
       <footer className="landing-footer">
         <p>© {new Date().getFullYear()} GMV Services. Tous droits réservés.</p>
