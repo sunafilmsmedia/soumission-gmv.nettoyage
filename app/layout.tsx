@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Instrument_Serif } from "next/font/google";
 import Script from "next/script";
 import { GMV_META_PIXEL_ID } from "@/lib/brand";
+import { TrackingCapture } from "@/components/TrackingCapture";
 import "./globals.css";
 
 const accentFont = Instrument_Serif({
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" className={accentFont.variable}>
       <body>
+        <TrackingCapture />
         {children}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`

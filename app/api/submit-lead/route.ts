@@ -61,6 +61,15 @@ export async function POST(req: NextRequest) {
   if (body.eventId) {
     const clientIp = req.headers.get("x-forwarded-for") ?? undefined;
     const clientUserAgent = req.headers.get("user-agent") ?? undefined;
+    const fbp = req.cookies.get("_fbp")?.value;
+    // Le cookie _fbc (posé par le Pixel dès qu'un fbclid est vu) est la
+    // source la plus fiable. S'il est absent (pixel bloqué, cookie expiré),
+    // on reconstruit fbc nous-mêmes à partir du fbclid déjà capturé dans
+    // l'URL — on ne doit jamais perdre le fbclid, même sans le cookie.
+    const fbcCookie = req.cookies.get("_fbc")?.value;
+    const fbclid = lead.source?.fbclid;
+    const fbc = fbcCookie || (fbclid ? `fb.1.${Date.now()}.${fbclid}` : undefined);
+
     await sendMetaConversionEvent({
       eventId: body.eventId,
       email: lead.courriel,
@@ -69,6 +78,8 @@ export async function POST(req: NextRequest) {
       eventSourceUrl: body.pageUrl,
       clientIp,
       clientUserAgent,
+      fbc,
+      fbp,
     });
   }
 

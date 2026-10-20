@@ -13,11 +13,14 @@ export async function sendMetaConversionEvent(params: {
   eventSourceUrl?: string;
   clientIp?: string;
   clientUserAgent?: string;
+  fbc?: string;
+  fbp?: string;
 }): Promise<void> {
   const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
   if (!accessToken) return;
 
-  const { eventId, email, phoneE164, value, eventSourceUrl, clientIp, clientUserAgent } = params;
+  const { eventId, email, phoneE164, value, eventSourceUrl, clientIp, clientUserAgent, fbc, fbp } =
+    params;
 
   const userData: Record<string, unknown> = {
     em: [sha256(email)],
@@ -25,6 +28,10 @@ export async function sendMetaConversionEvent(params: {
   };
   if (clientIp) userData.client_ip_address = clientIp;
   if (clientUserAgent) userData.client_user_agent = clientUserAgent;
+  // fbc/fbp améliorent la correspondance avec le clic publicitaire (fbclid) —
+  // essentiels pour attribuer correctement les leads aux campagnes Meta.
+  if (fbc) userData.fbc = fbc;
+  if (fbp) userData.fbp = fbp;
 
   const eventData: Record<string, unknown> = {
     event_name: "Lead",
