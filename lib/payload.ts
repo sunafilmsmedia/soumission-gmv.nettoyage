@@ -26,7 +26,7 @@ export function buildCrmPayload(params: {
     segment,
     priorite,
     score,
-    nom: contact.nom.trim(),
+    nom: `${contact.prenom.trim()} ${contact.nom.trim()}`.trim(),
     telephone: toE164(contact.telephone),
     courriel: contact.courriel.trim(),
     ville: contact.ville.trim(),

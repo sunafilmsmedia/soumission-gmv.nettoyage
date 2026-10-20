@@ -1,6 +1,12 @@
 import type { ContactInfo } from "./types";
 
-export type ContactField = "nom" | "telephone" | "courriel" | "ville" | "consentementSms";
+export type ContactField =
+  | "prenom"
+  | "nom"
+  | "telephone"
+  | "courriel"
+  | "ville"
+  | "consentementSms";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -19,6 +25,9 @@ export function toE164(raw: string): string {
 export function validateContact(
   contact: ContactInfo
 ): { field: ContactField; message: string } | null {
+  if (!contact.prenom.trim()) {
+    return { field: "prenom", message: "Entrez votre prénom." };
+  }
   if (!contact.nom.trim()) {
     return { field: "nom", message: "Entrez votre nom." };
   }
@@ -41,8 +50,4 @@ export function validateContact(
     };
   }
   return null;
-}
-
-export function firstName(fullName: string): string {
-  return fullName.trim().split(/\s+/)[0] ?? "";
 }

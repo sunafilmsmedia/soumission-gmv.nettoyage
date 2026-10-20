@@ -89,11 +89,23 @@ export function ContactStep({
       ) : null}
 
       <div className="form-field">
-        <label htmlFor="nom">Nom complet</label>
+        <label htmlFor="prenom">Prénom</label>
+        <input
+          id="prenom"
+          type="text"
+          autoComplete="given-name"
+          value={contact.prenom}
+          onChange={(e) => update("prenom", e.target.value)}
+        />
+        {error?.field === "prenom" ? <p className="field-error">{error.message}</p> : null}
+      </div>
+
+      <div className="form-field">
+        <label htmlFor="nom">Nom</label>
         <input
           id="nom"
           type="text"
-          autoComplete="name"
+          autoComplete="family-name"
           value={contact.nom}
           onChange={(e) => update("nom", e.target.value)}
         />

@@ -13,7 +13,6 @@ import { commercialResult, residentialResult } from "@/lib/scoring";
 import { buildCrmPayload } from "@/lib/payload";
 import { submitLead } from "@/lib/submitLead";
 import { captureUtmParams, fireMetaPixelLead, newEventId } from "@/lib/tracking";
-import { firstName } from "@/lib/validation";
 import type { Answers, ContactInfo, Segment, UtmParams } from "@/lib/types";
 
 type ResultState =
@@ -21,6 +20,7 @@ type ResultState =
   | { kind: "nopricing"; prenom: string; tel: string; segment: Segment };
 
 const EMPTY_CONTACT: ContactInfo = {
+  prenom: "",
   nom: "",
   telephone: "",
   courriel: "",
@@ -77,7 +77,7 @@ export function FormFlow() {
   function handleContactSubmit(submittedContact: ContactInfo) {
     setContact(submittedContact);
     const eventId = newEventId();
-    const prenom = firstName(submittedContact.nom);
+    const prenom = submittedContact.prenom.trim();
 
     if (segment === "commercial") {
       const { priorite, score } = commercialResult(answers);

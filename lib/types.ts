@@ -4,6 +4,7 @@ export type Priorite = "chaud" | "tiede" | "froid";
 export type Answers = Record<string, string>;
 
 export interface ContactInfo {
+  prenom: string;
   nom: string;
   telephone: string;
   courriel: string;
