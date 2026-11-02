@@ -1,9 +1,4 @@
-import {
-  COMMERCIAL_POINTS,
-  COMMERCIAL_THRESHOLDS,
-  PRICING,
-  RESIDENTIAL_PRIORITY,
-} from "./config";
+import { COMMERCIAL_PRIORITY, PRICING, RESIDENTIAL_PRIORITY } from "./config";
 import type { Answers, Priorite } from "./types";
 
 export function residentialResult(answers: Answers): {
@@ -18,17 +13,8 @@ export function residentialResult(answers: Answers): {
 
 export function commercialResult(answers: Answers): {
   priorite: Priorite;
-  score: number;
+  score: null;
 } {
-  let score = 0;
-  for (const field of Object.keys(COMMERCIAL_POINTS)) {
-    const value = answers[field];
-    score += COMMERCIAL_POINTS[field]?.[value] ?? 0;
-  }
-
-  let priorite: Priorite = "froid";
-  if (score >= COMMERCIAL_THRESHOLDS.chaud) priorite = "chaud";
-  else if (score >= COMMERCIAL_THRESHOLDS.tiede) priorite = "tiede";
-
-  return { priorite, score };
+  const priorite = COMMERCIAL_PRIORITY[answers.freq] ?? "froid";
+  return { priorite, score: null };
 }

@@ -82,22 +82,6 @@ const C1: QuestionStepDef = {
   ],
 };
 
-const C2: QuestionStepDef = {
-  type: "question",
-  id: "C2",
-  field: "taille",
-  question: "Superficie approximative ?",
-  subtitle: "Un estimé suffit, on la mesure avec vous.",
-  icon: "ruler",
-  options: [
-    { value: "s", label: "Moins de 2 000 pi²" },
-    { value: "m", label: "2 000 à 5 000 pi²" },
-    { value: "l", label: "5 000 à 15 000 pi²" },
-    { value: "xl", label: "Plus de 15 000 pi²" },
-    { value: "nsp", label: "Je ne sais pas" },
-  ],
-};
-
 const C3: QuestionStepDef = {
   type: "question",
   id: "C3",
@@ -113,25 +97,11 @@ const C3: QuestionStepDef = {
   ],
 };
 
-const C5: QuestionStepDef = {
-  type: "question",
-  id: "C5",
-  field: "quand",
-  question: "Quand voulez-vous commencer ?",
-  icon: "calendar",
-  options: [
-    { value: "urgent", label: "Le plus vite possible" },
-    { value: "mois", label: "Dans le mois" },
-    { value: "3mois", label: "D'ici 1 à 3 mois" },
-    { value: "magasine", label: "Je compare les prix" },
-  ],
-};
-
 const CONTACT_STEP: StepDef = { type: "contact", id: "contact" };
 
 // Pour l'instant, l'offre résidentielle est mise de côté : le parcours
 // commercial démarre directement sur C1, sans écran de division.
-export const COMMERCIAL_STEPS: StepDef[] = [C1, C2, C3, C5, CONTACT_STEP];
+export const COMMERCIAL_STEPS: StepDef[] = [C1, C3, CONTACT_STEP];
 
 export function getResidentialSteps(answers: Answers): StepDef[] {
   // Le prix fixe ne s'applique qu'au lavage à pression (R1 sert à choisir

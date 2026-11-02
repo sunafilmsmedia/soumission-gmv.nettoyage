@@ -30,18 +30,16 @@ export const RESIDENTIAL_PRIORITY: Record<string, Priorite> = {
   saison: "froid",
 };
 
-// Questions fournisseur/décideur retirées du parcours (commercial seulement
-// pour l'instant) : pointage recalibré sur quand + taille + freq (max 6).
-export const COMMERCIAL_POINTS: Record<string, Record<string, number>> = {
-  quand: { urgent: 3, mois: 2, "3mois": 1, magasine: 0 },
-  taille: { l: 2, xl: 2, m: 1, s: 0, nsp: 0 },
-  freq: { soir: 1, "2-3": 1, "1": 0, unique: 0, nsp: 0 },
-};
-
-export const COMMERCIAL_THRESHOLDS = {
-  chaud: 5, // score >= 5 (sur 6)
-  tiede: 3, // 3 <= score < 5
-  // < 3 => froid
+// Parcours commercial réduit à "type d'espace" + "fréquence" : le seul
+// signal d'intention restant est la fréquence (plus c'est récurrent, plus
+// le contrat potentiel est intéressant), donc mapping direct comme pour
+// le résidentiel plutôt qu'un système de points devenu inutile.
+export const COMMERCIAL_PRIORITY: Record<string, Priorite> = {
+  soir: "chaud",
+  "2-3": "chaud",
+  "1": "tiede",
+  unique: "froid",
+  nsp: "froid",
 };
 
 // Villes desservies (Outaouais + région d'Ottawa). À confirmer avec Véronique.
