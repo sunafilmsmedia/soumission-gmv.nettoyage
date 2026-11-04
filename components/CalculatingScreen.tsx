@@ -18,8 +18,17 @@ export function CalculatingScreen({
 
   return (
     <div className="calculating">
-      <img src="/broom.png" alt="" aria-hidden="true" className="calculating-broom" />
-      <p className="calculating-text">{text}</p>
+      <div className="calculating-ring">
+        <span className="calculating-ring-pulse" aria-hidden="true" />
+        <img src="/broom.png" alt="" aria-hidden="true" className="calculating-broom" />
+      </div>
+      <p className="calculating-eyebrow">Analyse en cours</p>
+      <p className="calculating-text shimmer-text">{text}</p>
+      <div className="calculating-dots" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
     </div>
   );
 }

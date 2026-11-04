@@ -49,6 +49,7 @@ export interface InputStepDef {
   icon?: StepIconKey;
   inputType: "number" | "text";
   placeholder?: string;
+  suffix?: string;
 }
 
 export interface CalculatingStepDef {

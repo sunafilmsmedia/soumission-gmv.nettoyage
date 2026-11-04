@@ -18,16 +18,15 @@ export function QuestionScreen({
 }) {
   return (
     <>
-      <h1 className="question-title">{question}</h1>
-      {subtitle ? <p className="question-subtitle">{subtitle}</p> : null}
+      <h1 className="question-title fade-in-up">{question}</h1>
+      {subtitle ? <p className="question-subtitle fade-in-up">{subtitle}</p> : null}
       <div className="options">
-        {options.map((opt) => (
+        {options.map((opt, i) => (
           <button
             key={opt.value}
             type="button"
-            className={`option-button${opt.icon ? " has-icon" : ""}${
-              selectedValue === opt.value ? " selected" : ""
-            }`}
+            className={`option-button fade-in-up${selectedValue === opt.value ? " selected" : ""}`}
+            style={{ animationDelay: `${i * 45}ms` }}
             onClick={() => onSelect(opt.value)}
           >
             {opt.icon ? (
@@ -39,6 +38,7 @@ export function QuestionScreen({
               <span className="option-label">{opt.label}</span>
               {opt.subtext ? <span className="option-subtext">{opt.subtext}</span> : null}
             </span>
+            <span className="option-radio" aria-hidden="true" />
           </button>
         ))}
       </div>

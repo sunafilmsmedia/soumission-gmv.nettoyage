@@ -205,6 +205,7 @@ export function FormFlow() {
               subtitle={currentStep.subtitle}
               inputType={currentStep.inputType}
               placeholder={currentStep.placeholder}
+              suffix={currentStep.suffix}
               initialValue={answers[currentStep.field]}
               onSubmit={(value) => handleSelect(currentStep.field, value)}
             />

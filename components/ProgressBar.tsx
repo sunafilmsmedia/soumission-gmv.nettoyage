@@ -31,7 +31,7 @@ export function ProgressBar({
         <div className="progress-fill" style={{ width: `${pct}%` }} />
       </div>
       <span className="progress-label">
-        Étape {current} sur {total}
+        Étape {current} sur {total} · <span className="progress-pct">{pct}%</span>
       </span>
     </div>
   );

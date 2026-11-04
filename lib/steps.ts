@@ -91,6 +91,7 @@ const C2_SUPERFICIE: InputStepDef = {
   icon: "ruler",
   inputType: "number",
   placeholder: "Ex. : 2500",
+  suffix: "pi²",
 };
 
 const C3_VILLE: InputStepDef = {

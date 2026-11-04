@@ -44,19 +44,28 @@ export function ContactStep({
   if (submitting) {
     return (
       <div className="calculating">
-        <img src="/broom.png" alt="" aria-hidden="true" className="calculating-broom" />
-        <p className="calculating-text">On calcule votre soumission&hellip;</p>
+        <div className="calculating-ring">
+          <span className="calculating-ring-pulse" aria-hidden="true" />
+          <img src="/broom.png" alt="" aria-hidden="true" className="calculating-broom" />
+        </div>
+        <p className="calculating-eyebrow">Envoi en cours</p>
+        <p className="calculating-text shimmer-text">On calcule votre soumission&hellip;</p>
+        <div className="calculating-dots" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
       </div>
     );
   }
 
   return (
     <>
-      <h1 className="question-title">{title}</h1>
-      <p className="question-subtitle">{subtitle}</p>
+      <h1 className="question-title fade-in-up">{title}</h1>
+      <p className="question-subtitle fade-in-up">{subtitle}</p>
 
       {previewPrice !== undefined ? (
-        <div className="price-preview">
+        <div className="price-preview fade-in-up">
           <span className="price-preview-label">Votre prix</span>
           <span className="price-preview-value" aria-hidden="true">
             {formatPrice(previewPrice)}
@@ -67,7 +76,7 @@ export function ContactStep({
         </div>
       ) : null}
 
-      <div className="form-field">
+      <div className="form-field fade-in-up" style={{ animationDelay: "40ms" }}>
         <label htmlFor="nomComplet">Nom complet</label>
         <input
           id="nomComplet"
@@ -79,7 +88,7 @@ export function ContactStep({
         {error?.field === "nomComplet" ? <p className="field-error">{error.message}</p> : null}
       </div>
 
-      <div className="form-field">
+      <div className="form-field fade-in-up" style={{ animationDelay: "80ms" }}>
         <label htmlFor="telephone">Téléphone</label>
         <input
           id="telephone"
@@ -92,7 +101,7 @@ export function ContactStep({
         {error?.field === "telephone" ? <p className="field-error">{error.message}</p> : null}
       </div>
 
-      <div className="form-field">
+      <div className="form-field fade-in-up" style={{ animationDelay: "120ms" }}>
         <label htmlFor="courriel">Courriel</label>
         <input
           id="courriel"
@@ -104,7 +113,7 @@ export function ContactStep({
         {error?.field === "courriel" ? <p className="field-error">{error.message}</p> : null}
       </div>
 
-      <div className="consent-row">
+      <div className="consent-row fade-in-up" style={{ animationDelay: "160ms" }}>
         <input
           id="consentement"
           type="checkbox"
@@ -117,7 +126,13 @@ export function ContactStep({
       </div>
       {error?.field === "consentementSms" ? <p className="field-error">{error.message}</p> : null}
 
-      <button type="button" className="primary-button" disabled={submitting} onClick={handleSubmit}>
+      <button
+        type="button"
+        className="primary-button fade-in-up"
+        style={{ animationDelay: "200ms" }}
+        disabled={submitting}
+        onClick={handleSubmit}
+      >
         {ctaLabel}
       </button>
     </>
