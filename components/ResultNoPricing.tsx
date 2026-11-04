@@ -11,17 +11,24 @@ export function ResultNoPricing({
   segment: Segment;
   onRestart: () => void;
 }) {
-  const place = segment === "residentiel" ? "propriété" : "espace";
+  const headline =
+    segment === "residentiel"
+      ? `Merci ${prenom}, un agent GMV va vous appeler`
+      : `Merci ${prenom}, un de nos associés va vous contacter bientôt`;
+
   const intro =
     segment === "residentiel"
-      ? "Chaque projet est différent."
-      : "Chaque espace commercial est différent.";
+      ? "Chaque projet est différent. Pour vous donner un prix juste, notre agent va valider avec vous :"
+      : "On doit calculer le déplacement et nos disponibilités avant de vous donner un prix final :";
 
-  const steps = [
-    "L'urgence de votre projet et la date de début souhaitée",
-    `La superficie exacte de votre ${place}`,
-    `La localisation exacte de votre ${place}`,
-  ];
+  const steps =
+    segment === "residentiel"
+      ? [
+          "L'urgence de votre projet et la date de début souhaitée",
+          "La superficie exacte de votre propriété",
+          "La localisation exacte de votre propriété",
+        ]
+      : ["Le temps de déplacement jusqu'à votre adresse", "Nos disponibilités selon votre échéancier"];
 
   return (
     <>
@@ -31,14 +38,14 @@ export function ResultNoPricing({
       </span>
 
       <h1 className="result-headline fade-in-up" style={{ animationDelay: "70ms" }}>
-        Merci {prenom}, un agent GMV va vous appeler
+        {headline}
       </h1>
 
       <p
         className="question-subtitle fade-in-up"
         style={{ animationDelay: "140ms", marginBottom: 20 }}
       >
-        {intro} Pour vous donner un prix juste, notre agent va valider avec vous :
+        {intro}
       </p>
 
       <ol className="steps-numbered fade-in-up" style={{ animationDelay: "210ms" }}>

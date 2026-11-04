@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "./ProgressBar";
 import { QuestionScreen } from "./QuestionScreen";
+import { InputScreen } from "./InputScreen";
+import { CalculatingScreen } from "./CalculatingScreen";
 import { ContactStep } from "./ContactStep";
 import { StepIcon } from "./icons";
 import { ResultResidential } from "./ResultResidential";
@@ -20,8 +22,7 @@ type ResultState =
   | { kind: "nopricing"; prenom: string; tel: string; segment: Segment };
 
 const EMPTY_CONTACT: ContactInfo = {
-  prenom: "",
-  nom: "",
+  nomComplet: "",
   telephone: "",
   courriel: "",
   ville: "",
@@ -70,14 +71,23 @@ export function FormFlow() {
       setStepIndex((i) => i + 1);
       return;
     }
+    if (field === "ville") {
+      // La ville est demandée tôt dans le parcours commercial, mais reste
+      // portée par ContactInfo (c'est ce que buildCrmPayload lit).
+      setContact((c) => ({ ...c, ville: value }));
+    }
     setAnswers((prev) => ({ ...prev, [field]: value }));
+    setStepIndex((i) => i + 1);
+  }
+
+  function handleCalculatingDone() {
     setStepIndex((i) => i + 1);
   }
 
   function handleContactSubmit(submittedContact: ContactInfo) {
     setContact(submittedContact);
     const eventId = newEventId();
-    const prenom = submittedContact.prenom.trim();
+    const prenom = submittedContact.nomComplet.trim().split(/\s+/)[0] ?? "";
 
     if (segment === "commercial") {
       const { priorite, score } = commercialResult(answers);
@@ -173,7 +183,8 @@ export function FormFlow() {
             showBack={stepIndex > 0}
           />
 
-          {currentStep.type === "question" && currentStep.icon ? (
+          {(currentStep.type === "question" || currentStep.type === "input") &&
+          currentStep.icon ? (
             <span className="step-icon-badge">
               <StepIcon icon={currentStep.icon} className="step-icon" />
             </span>
@@ -187,6 +198,18 @@ export function FormFlow() {
               selectedValue={answers[currentStep.field]}
               onSelect={(value) => handleSelect(currentStep.field, value)}
             />
+          ) : currentStep.type === "input" ? (
+            <InputScreen
+              key={currentStep.id}
+              question={currentStep.question}
+              subtitle={currentStep.subtitle}
+              inputType={currentStep.inputType}
+              placeholder={currentStep.placeholder}
+              initialValue={answers[currentStep.field]}
+              onSubmit={(value) => handleSelect(currentStep.field, value)}
+            />
+          ) : currentStep.type === "calculating" ? (
+            <CalculatingScreen text={currentStep.text} onDone={handleCalculatingDone} />
           ) : (
             <>
               <span className="step-icon-badge">
@@ -194,13 +217,27 @@ export function FormFlow() {
               </span>
               <ContactStep
                 initialValue={contact}
-                title={isPricedResidential ? "Où envoyer votre prix ?" : "Qui doit-on appeler ?"}
+                title={
+                  isPricedResidential
+                    ? "Où envoyer votre prix ?"
+                    : segment === "commercial"
+                      ? "Où est-ce qu'on envoie votre soumission ?"
+                      : "Qui doit-on appeler ?"
+                }
                 subtitle={
                   isPricedResidential
                     ? "On confirme votre date par texto."
-                    : "Un agent vous rappelle pour finaliser votre soumission."
+                    : segment === "commercial"
+                      ? "Un de nos associés vous contacte pour finaliser le tout."
+                      : "Un agent vous rappelle pour finaliser votre soumission."
                 }
-                ctaLabel={isPricedResidential ? "Voir mon prix" : "Envoyer ma demande"}
+                ctaLabel={
+                  isPricedResidential
+                    ? "Voir mon prix"
+                    : segment === "commercial"
+                      ? "Recevoir soumission complète"
+                      : "Envoyer ma demande"
+                }
                 previewPrice={isPricedResidential ? residentialResult(answers).price : undefined}
                 onSubmit={handleContactSubmit}
               />

@@ -4,8 +4,7 @@ export type Priorite = "chaud" | "tiede" | "froid";
 export type Answers = Record<string, string>;
 
 export interface ContactInfo {
-  prenom: string;
-  nom: string;
+  nomComplet: string;
   telephone: string;
   courriel: string;
   ville: string;
@@ -21,7 +20,8 @@ export type StepIconKey =
   | "repeat"
   | "handshake"
   | "user"
-  | "phone";
+  | "phone"
+  | "pin";
 
 export interface OptionDef {
   value: string;
@@ -40,12 +40,29 @@ export interface QuestionStepDef {
   options: OptionDef[];
 }
 
+export interface InputStepDef {
+  type: "input";
+  id: string;
+  field: string;
+  question: string;
+  subtitle?: string;
+  icon?: StepIconKey;
+  inputType: "number" | "text";
+  placeholder?: string;
+}
+
+export interface CalculatingStepDef {
+  type: "calculating";
+  id: string;
+  text: string;
+}
+
 export interface ContactStepDef {
   type: "contact";
   id: string;
 }
 
-export type StepDef = QuestionStepDef | ContactStepDef;
+export type StepDef = QuestionStepDef | InputStepDef | CalculatingStepDef | ContactStepDef;
 
 export interface UtmParams {
   utm_source?: string;

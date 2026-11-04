@@ -68,27 +68,15 @@ export function ContactStep({
       ) : null}
 
       <div className="form-field">
-        <label htmlFor="prenom">Prénom</label>
+        <label htmlFor="nomComplet">Nom complet</label>
         <input
-          id="prenom"
+          id="nomComplet"
           type="text"
-          autoComplete="given-name"
-          value={contact.prenom}
-          onChange={(e) => update("prenom", e.target.value)}
+          autoComplete="name"
+          value={contact.nomComplet}
+          onChange={(e) => update("nomComplet", e.target.value)}
         />
-        {error?.field === "prenom" ? <p className="field-error">{error.message}</p> : null}
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="nom">Nom</label>
-        <input
-          id="nom"
-          type="text"
-          autoComplete="family-name"
-          value={contact.nom}
-          onChange={(e) => update("nom", e.target.value)}
-        />
-        {error?.field === "nom" ? <p className="field-error">{error.message}</p> : null}
+        {error?.field === "nomComplet" ? <p className="field-error">{error.message}</p> : null}
       </div>
 
       <div className="form-field">
@@ -114,18 +102,6 @@ export function ContactStep({
           onChange={(e) => update("courriel", e.target.value)}
         />
         {error?.field === "courriel" ? <p className="field-error">{error.message}</p> : null}
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="ville">Ville</label>
-        <input
-          id="ville"
-          type="text"
-          autoComplete="address-level2"
-          value={contact.ville}
-          onChange={(e) => update("ville", e.target.value)}
-        />
-        {error?.field === "ville" ? <p className="field-error">{error.message}</p> : null}
       </div>
 
       <div className="consent-row">

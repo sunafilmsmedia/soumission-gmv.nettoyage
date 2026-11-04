@@ -1,4 +1,4 @@
-import type { Answers, QuestionStepDef, StepDef } from "./types";
+import type { Answers, CalculatingStepDef, InputStepDef, QuestionStepDef, StepDef } from "./types";
 
 export const DIVISION_STEP: QuestionStepDef = {
   type: "question",
@@ -82,26 +82,44 @@ const C1: QuestionStepDef = {
   ],
 };
 
-const C3: QuestionStepDef = {
-  type: "question",
+const C2_SUPERFICIE: InputStepDef = {
+  type: "input",
+  id: "C2",
+  field: "superficie",
+  question: "Quel est le nombre de pieds carrés ?",
+  subtitle: "Une estimation suffit.",
+  icon: "ruler",
+  inputType: "number",
+  placeholder: "Ex. : 2500",
+};
+
+const C3_VILLE: InputStepDef = {
+  type: "input",
   id: "C3",
-  field: "freq",
-  question: "À quelle fréquence ?",
-  icon: "repeat",
-  options: [
-    { value: "soir", label: "Chaque soir" },
-    { value: "2-3", label: "2 à 3 fois par semaine" },
-    { value: "1", label: "1 fois par semaine" },
-    { value: "unique", label: "Une seule fois" },
-    { value: "nsp", label: "À déterminer" },
-  ],
+  field: "ville",
+  question: "Dans quelle ville ?",
+  icon: "pin",
+  inputType: "text",
+  placeholder: "Ex. : Gatineau",
+};
+
+const CALCULATING_STEP: CalculatingStepDef = {
+  type: "calculating",
+  id: "calc",
+  text: "L'IA calcule le prix selon le déplacement, la grandeur et le type d'espace.",
 };
 
 const CONTACT_STEP: StepDef = { type: "contact", id: "contact" };
 
 // Pour l'instant, l'offre résidentielle est mise de côté : le parcours
 // commercial démarre directement sur C1, sans écran de division.
-export const COMMERCIAL_STEPS: StepDef[] = [C1, C3, CONTACT_STEP];
+export const COMMERCIAL_STEPS: StepDef[] = [
+  C1,
+  C2_SUPERFICIE,
+  C3_VILLE,
+  CALCULATING_STEP,
+  CONTACT_STEP,
+];
 
 export function getResidentialSteps(answers: Answers): StepDef[] {
   // Le prix fixe ne s'applique qu'au lavage à pression (R1 sert à choisir

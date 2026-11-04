@@ -1,8 +1,7 @@
 import type { ContactInfo } from "./types";
 
 export type ContactField =
-  | "prenom"
-  | "nom"
+  | "nomComplet"
   | "telephone"
   | "courriel"
   | "ville"
@@ -25,11 +24,8 @@ export function toE164(raw: string): string {
 export function validateContact(
   contact: ContactInfo
 ): { field: ContactField; message: string } | null {
-  if (!contact.prenom.trim()) {
-    return { field: "prenom", message: "Entrez votre prénom." };
-  }
-  if (!contact.nom.trim()) {
-    return { field: "nom", message: "Entrez votre nom." };
+  if (!contact.nomComplet.trim()) {
+    return { field: "nomComplet", message: "Entrez votre nom complet." };
   }
   if (!isValidPhone(contact.telephone)) {
     return {

@@ -30,17 +30,14 @@ export const RESIDENTIAL_PRIORITY: Record<string, Priorite> = {
   saison: "froid",
 };
 
-// Parcours commercial réduit à "type d'espace" + "fréquence" : le seul
-// signal d'intention restant est la fréquence (plus c'est récurrent, plus
-// le contrat potentiel est intéressant), donc mapping direct comme pour
-// le résidentiel plutôt qu'un système de points devenu inutile.
-export const COMMERCIAL_PRIORITY: Record<string, Priorite> = {
-  soir: "chaud",
-  "2-3": "chaud",
-  "1": "tiede",
-  unique: "froid",
-  nsp: "froid",
-};
+// Parcours commercial : le signal d'intention est la superficie (plus
+// l'espace est grand, plus le contrat potentiel est intéressant). Seuils
+// en pieds carrés, à confirmer avec GMV.
+export const COMMERCIAL_SURFACE_PRIORITY: { min: number; priorite: Priorite }[] = [
+  { min: 10000, priorite: "chaud" },
+  { min: 3000, priorite: "tiede" },
+  { min: 0, priorite: "froid" },
+];
 
 // Villes desservies (Outaouais + région d'Ottawa). À confirmer avec Véronique.
 export const NEARBY_CITIES = [

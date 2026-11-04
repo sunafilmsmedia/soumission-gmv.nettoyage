@@ -109,6 +109,15 @@ function PhoneIcon({ className }: IconProps) {
   );
 }
 
+function PinIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className} aria-hidden="true">
+      <path d="M24 5 C14 5, 8 12, 8 20 C8 31, 24 43, 24 43 C24 43, 40 31, 40 20 C40 12, 34 5, 24 5 Z" />
+      <circle cx="24" cy="20" r="6" />
+    </svg>
+  );
+}
+
 const ICONS: Record<StepIconKey, (props: IconProps) => React.JSX.Element> = {
   house: HouseIcon,
   building: BuildingIcon,
@@ -119,6 +128,7 @@ const ICONS: Record<StepIconKey, (props: IconProps) => React.JSX.Element> = {
   handshake: HandshakeIcon,
   user: UserIcon,
   phone: PhoneIcon,
+  pin: PinIcon,
 };
 
 export function StepIcon({ icon, className }: { icon: StepIconKey; className?: string }) {

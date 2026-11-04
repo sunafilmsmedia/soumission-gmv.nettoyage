@@ -3,7 +3,7 @@ import { nowIsoWithOffset } from "./tracking";
 import type { Answers, ContactInfo, CrmPayload, Priorite, Segment, UtmParams } from "./types";
 
 const RESIDENTIAL_FIELDS = ["service", "maison", "quand"];
-const COMMERCIAL_FIELDS = ["type", "freq"];
+const COMMERCIAL_FIELDS = ["type", "superficie"];
 
 export function buildCrmPayload(params: {
   segment: Segment;
@@ -26,7 +26,7 @@ export function buildCrmPayload(params: {
     segment,
     priorite,
     score,
-    nom: `${contact.prenom.trim()} ${contact.nom.trim()}`.trim(),
+    nom: contact.nomComplet.trim(),
     telephone: toE164(contact.telephone),
     courriel: contact.courriel.trim(),
     ville: contact.ville.trim(),
