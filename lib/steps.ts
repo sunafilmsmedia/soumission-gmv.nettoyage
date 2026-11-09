@@ -66,6 +66,18 @@ const R3: QuestionStepDef = {
   ],
 };
 
+const JOB_GATE: QuestionStepDef = {
+  type: "question",
+  id: "gate",
+  field: "chercheEmploi",
+  question: "Cherchez-vous à travailler comme employé chez GMV Services ?",
+  icon: "handshake",
+  options: [
+    { value: "oui", label: "Oui, je cherche un emploi" },
+    { value: "non", label: "Non, je cherche un service de nettoyage" },
+  ],
+};
+
 const C1: QuestionStepDef = {
   type: "question",
   id: "C1",
@@ -115,6 +127,7 @@ const CONTACT_STEP: StepDef = { type: "contact", id: "contact" };
 // Pour l'instant, l'offre résidentielle est mise de côté : le parcours
 // commercial démarre directement sur C1, sans écran de division.
 export const COMMERCIAL_STEPS: StepDef[] = [
+  JOB_GATE,
   C1,
   C2_SUPERFICIE,
   C3_VILLE,

@@ -9,6 +9,7 @@ import { ContactStep } from "./ContactStep";
 import { StepIcon } from "./icons";
 import { ResultResidential } from "./ResultResidential";
 import { ResultNoPricing } from "./ResultNoPricing";
+import { ResultJobSeeker } from "./ResultJobSeeker";
 import { getSteps } from "@/lib/steps";
 import { PRICING } from "@/lib/config";
 import { commercialResult, residentialResult } from "@/lib/scoring";
@@ -19,7 +20,8 @@ import type { Answers, ContactInfo, Segment, UtmParams } from "@/lib/types";
 
 type ResultState =
   | { kind: "residentiel"; prenom: string; propertyLabel: string; price: number; tel: string }
-  | { kind: "nopricing"; prenom: string; tel: string; segment: Segment };
+  | { kind: "nopricing"; prenom: string; tel: string; segment: Segment }
+  | { kind: "emploi" };
 
 const EMPTY_CONTACT: ContactInfo = {
   nomComplet: "",
@@ -59,6 +61,16 @@ export function FormFlow() {
   }
 
   function handleSelect(field: string, value: string) {
+    if (field === "chercheEmploi") {
+      // On ne veut pas d'employés via ce formulaire : on remercie la
+      // personne sans rien lui demander et sans envoyer de lead au CRM.
+      if (value === "oui") {
+        setResult({ kind: "emploi" });
+        return;
+      }
+      setStepIndex((i) => i + 1);
+      return;
+    }
     if (field === "service") {
       // "maison" (type de propriété) ne s'applique qu'au lavage à pression :
       // on l'efface si on change de type de nettoyage, pour ne pas laisser
@@ -157,13 +169,15 @@ export function FormFlow() {
                 tel={result.tel}
                 onRestart={handleRestart}
               />
-            ) : (
+            ) : result.kind === "nopricing" ? (
               <ResultNoPricing
                 prenom={result.prenom}
                 tel={result.tel}
                 segment={result.segment}
                 onRestart={handleRestart}
               />
+            ) : (
+              <ResultJobSeeker onRestart={handleRestart} />
             )}
           </div>
         </main>
